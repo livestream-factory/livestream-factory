@@ -28,7 +28,6 @@ def markets():
     return {
         "mode": "demo",
         "disclaimer": "FICTIONAL DEMO VALUES — NOT LIVE MARKET DATA",
-        "as_of_utc": datetime.now(timezone.utc).isoformat(),
         "instruments": [
             {"symbol": "S&P 500", "value": "5,240.00", "change_pct": 0.42},
             {"symbol": "NASDAQ", "value": "16,380.00", "change_pct": 0.68},
