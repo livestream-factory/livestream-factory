@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Markets Live — Demo Broadcast</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050b16;color:#f4f7ff;font:30px system-ui}
+.scene{width:1920px;height:1080px;position:relative;overflow:hidden;background:radial-gradient(circle at 80% 0%,#1a3053,#070e1c 60%)}
+header{display:flex;justify-content:space-between;align-items:center;padding:52px 70px;border-bottom:2px solid #263953}
+.brand{font-size:55px;font-weight:800;letter-spacing:-2px}.tag{font-size:26px;color:#9fb6d1}
+main{padding:75px 70px}.title{font-size:38px;color:#b4c8e2;margin-bottom:32px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.tile{background:#14233a;border:1px solid #2b4465;border-radius:18px;padding:30px;min-height:230px}
+.symbol{color:#b9cde7;font-size:29px}.value{font-size:51px;font-weight:750;margin-top:25px}.change{font-size:30px;margin-top:8px}.up{color:#56d6a1}.down{color:#ff8193}
+footer{position:absolute;bottom:0;left:0;right:0;background:#13243c;padding:28px 70px;display:flex;justify-content:space-between;font-size:25px;color:#c8d8ec}
+.demo{background:#8a2d40;padding:10px 18px;border-radius:8px;font-weight:800}
+</style></head><body><div class="scene"><header><div><div class="brand">MARKETS LIVE</div><div class="tag">LiveStream Factory · Broadcast Scene Preview</div></div><div class="demo">DEMO — NOT LIVE DATA</div></header>
+<main><div class="title">Market Overview</div><div class="grid" id="tiles"></div><p style="margin-top:85px;color:#92aac8;font-size:27px">This scene is a prototype. Prices are fictional and must not be used for trading.</p></main>
+<footer><span id="clock">UTC</span><span>Broadcast offline · Preview only</span></footer></div>
+<script>
+const tiles=document.getElementById('tiles');
+async function refresh(){try{const r=await fetch('/api/markets');if(!r.ok)throw Error('API error');const d=await r.json();tiles.replaceChildren();for(const x of d.instruments){const t=document.createElement('div');t.className='tile';const s=document.createElement('div');s.className='symbol';s.textContent=x.symbol;const v=document.createElement('div');v.className='value';v.textContent=x.value;const c=document.createElement('div');c.className='change '+(x.change_pct>=0?'up':'down');c.textContent=(x.change_pct>=0?'+':'')+x.change_pct.toFixed(2)+'%';t.append(s,v,c);tiles.append(t)}}catch(e){tiles.textContent='Demo feed unavailable'}}
+function clock(){document.getElementById('clock').textContent=new Date().toUTCString()}
+refresh();clock();setInterval(refresh,30000);setInterval(clock,1000);
+</script></body></html>
